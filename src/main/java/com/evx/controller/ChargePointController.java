@@ -39,4 +39,14 @@ public class ChargePointController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<ChargePoint> update(@PathVariable Long id, @RequestBody ChargePoint chargePoint) {
+        return service.findById(id)
+                .map(existing -> {
+                    existing.setStatus(chargePoint.getStatus());
+                    return ResponseEntity.ok(service.save(existing));
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
 }
+
