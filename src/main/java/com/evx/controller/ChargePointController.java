@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/charge-points")
 public class ChargePointController {
@@ -39,6 +40,7 @@ public class ChargePointController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<ChargePoint> update(@PathVariable Long id, @RequestBody ChargePoint chargePoint) {
         return service.findById(id)
@@ -49,4 +51,3 @@ public class ChargePointController {
                 .orElse(ResponseEntity.notFound().build());
     }
 }
-
