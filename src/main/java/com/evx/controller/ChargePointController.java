@@ -2,6 +2,7 @@ package com.evx.controller;
 
 import com.evx.model.ChargePoint;
 import com.evx.service.ChargePointService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class ChargePointController {
     }
 
     @PostMapping
-    public ChargePoint create(@RequestBody ChargePoint chargePoint) {
+    public ChargePoint create(@Valid @RequestBody ChargePoint chargePoint) {
         return service.save(chargePoint);
     }
 

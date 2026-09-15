@@ -1,6 +1,7 @@
 package com.evx.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,9 +12,11 @@ public class ChargePoint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El Charge Point ID no puede estar vacío")
     @Column(name = "charge_point_id", nullable = false, unique = true)
     private String chargePointId;
 
+    @NotBlank(message = "El status no puede estar vacío")
     @Column(nullable = false)
     private String status;
 
