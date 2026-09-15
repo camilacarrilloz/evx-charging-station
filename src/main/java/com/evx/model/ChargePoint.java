@@ -2,6 +2,8 @@ package com.evx.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,13 +14,18 @@ public class ChargePoint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "El Charge Point ID no puede estar vacío")
+    @NotBlank(message = "El Charge Point ID debe tener el formato CP-XXX (ej: CP-001)")
+    @Pattern(
+        regexp = "^CP-\\d{3}$",
+        message = "El Charge Point ID debe tener el formato CP-XXX (ej: CP-001)"
+    )
     @Column(name = "charge_point_id", nullable = false, unique = true)
     private String chargePointId;
 
-    @NotBlank(message = "El status no puede estar vacío")
-    @Column(nullable = false)
-    private String status;
+    @NotNull(message = "El status no puede estar vacío")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "status_id", nullable = false)
+    private ChargePointStatus status;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -30,16 +37,12 @@ public class ChargePoint {
         }
     }
 
-    // Getters y Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-
     public String getChargePointId() { return chargePointId; }
     public void setChargePointId(String chargePointId) { this.chargePointId = chargePointId; }
-
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-
+    public ChargePointStatus getStatus() { return status; }
+    public void setStatus(ChargePointStatus status) { this.status = status; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
